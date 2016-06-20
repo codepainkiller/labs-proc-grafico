@@ -38,10 +38,11 @@ public class InterfazGU extends javax.swing.JFrame {
         jMenuPromBinLocal = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
         jMenuItem7 = new javax.swing.JMenuItem();
+        jMenuItemZoom = new javax.swing.JMenuItem();
         jMenu4 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItemZoom = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Procesamiento Digital de Imagenes");
@@ -164,6 +165,14 @@ public class InterfazGU extends javax.swing.JFrame {
 
         jMenu2.add(jMenu3);
 
+        jMenuItemZoom.setText("Zoom");
+        jMenuItemZoom.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemZoomActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItemZoom);
+
         jMenu4.setText("Invertir");
 
         jMenuItem8.setText("Horizontal");
@@ -184,13 +193,13 @@ public class InterfazGU extends javax.swing.JFrame {
 
         jMenu2.add(jMenu4);
 
-        jMenuItemZoom.setText("Zoom");
-        jMenuItemZoom.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItem10.setText("Trasladar");
+        jMenuItem10.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemZoomActionPerformed(evt);
+                jMenuItem10ActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItemZoom);
+        jMenu2.add(jMenuItem10);
 
         jMenuBar1.add(jMenu2);
 
@@ -416,14 +425,36 @@ public class InterfazGU extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemZoomActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
-        Imagen img = new Imagen(path);
-        Imagen.ventana(Algoritmos.invertir(img, 'x'), "Invertir Horizontal");
+        if (this.imagen != null) {
+            Imagen img = new Imagen(path);
+            Imagen.ventana(Algoritmos.invertir(img, 'x'), "Invertir Horizontal");
+        } else {
+            System.out.println("Imagen no cargada");
+        }
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
     private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
-        Imagen img = new Imagen(path);
-        Imagen.ventana(Algoritmos.invertir(img, 'y'), "Invertir Vertical");
+        if (this.imagen != null) {
+            Imagen img = new Imagen(path);
+            Imagen.ventana(Algoritmos.invertir(img, 'y'), "Invertir Vertical");
+        } else {
+            System.out.println("Imagen no cargada");
+        }
+        
     }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem10ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem10ActionPerformed
+        if (this.imagen != null) {
+            Imagen img = new Imagen(path);
+
+            int x = Integer.parseInt(JOptionPane.showInputDialog("Ingrese X"));
+            int y = Integer.parseInt(JOptionPane.showInputDialog("Ingrese Y"));
+
+            Imagen.ventana(Algoritmos.trasladar(img, x, y), "Trasladar imagen");
+        } else {
+            System.out.println("Imagen no cargada");
+        }
+    }//GEN-LAST:event_jMenuItem10ActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -443,6 +474,7 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuBinarizacionPRomedio;
     private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem10;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;

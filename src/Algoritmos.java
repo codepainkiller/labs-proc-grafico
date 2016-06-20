@@ -365,18 +365,20 @@ public class Algoritmos {
         double[][] G2 = new double[filas][col];
         double[][] B2 = new double[filas][col];
         
-        filas--;
-        col--;
         
+        System.out.println("X=" + x + ", Y=" + y);
+        System.out.println("filas=" + filas + ", col=" + col);
         
-        for (int i = 0; i <= filas; i++) {
-            for (int j = 0; j <= col; j++) {
-                int ii = i;
-                int jj = j;
-                
-                R2[i][j] = R[ii][jj];
-                G2[i][j] = G[ii][jj];
-                B2[i][j] = B[ii][jj];
+        if (x >= filas || y >= col) {
+            System.out.println("Coordenadas demasiado grandes");
+            return img;
+        }
+        
+        for (int i = 0; i < filas-x; i++) {
+            for (int j = 0; j < col-y; j++) {
+                R2[i+x][j+y] = R[i][j];
+                G2[i+x][j+y] = G[i][j];
+                B2[i+x][j+y] = B[i][j];
             }
         }
   
