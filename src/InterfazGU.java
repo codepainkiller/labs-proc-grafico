@@ -20,6 +20,7 @@ public class InterfazGU extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem11 = new javax.swing.JMenuItem();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -43,6 +44,10 @@ public class InterfazGU extends javax.swing.JFrame {
         jMenuItem8 = new javax.swing.JMenuItem();
         jMenuItem9 = new javax.swing.JMenuItem();
         jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItemManaza = new javax.swing.JMenuItem();
+        jMenuItemLimon = new javax.swing.JMenuItem();
+
+        jMenuItem11.setText("jMenuItem11");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Procesamiento Digital de Imagenes");
@@ -200,6 +205,17 @@ public class InterfazGU extends javax.swing.JFrame {
             }
         });
         jMenu2.add(jMenuItem10);
+
+        jMenuItemManaza.setText("Manzana");
+        jMenuItemManaza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemManazaActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItemManaza);
+
+        jMenuItemLimon.setText("Limon");
+        jMenu2.add(jMenuItemLimon);
 
         jMenuBar1.add(jMenu2);
 
@@ -455,6 +471,10 @@ public class InterfazGU extends javax.swing.JFrame {
             System.out.println("Imagen no cargada");
         }
     }//GEN-LAST:event_jMenuItem10ActionPerformed
+
+    private void jMenuItemManazaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManazaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItemManazaActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -475,6 +495,7 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenu jMenuBinarizacionPRomedio;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem10;
+    private javax.swing.JMenuItem jMenuItem11;
     private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItem3;
     private javax.swing.JMenuItem jMenuItem4;
@@ -483,6 +504,8 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem7;
     private javax.swing.JMenuItem jMenuItem8;
     private javax.swing.JMenuItem jMenuItem9;
+    private javax.swing.JMenuItem jMenuItemLimon;
+    private javax.swing.JMenuItem jMenuItemManaza;
     private javax.swing.JMenuItem jMenuItemResta;
     private javax.swing.JMenuItem jMenuItemSuma;
     private javax.swing.JMenuItem jMenuItemZoom;
