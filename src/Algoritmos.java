@@ -386,5 +386,118 @@ public class Algoritmos {
         return img;
     }
     
+    public static double convolucion(double[][] I,int x,int y, double[][] I1){
+     
+	int i=0,j=0;
+	int m = I1.length;
+	int n = I1[0].length;
+	double sum=0;
+	int i1=0, j1=0;
+     
+        for( i=-1;i<=1;i++)
+        {   j1=0;         
+            for(j=-1;j<=1;j++)
+            {
+                sum += I[x+i][y+j]*I1[i1][j1];
+                j1++;
+            }
+            i1++;
+        }
+        return sum;
+    }
+
+     
+    public static double[][] bordes(double[][] I, double[][] I1, double[][] I2) {
+
+       int m= I.length;
+       int n= I[0].length;
+
+       int m1 = I1.length/2;
+       int n1 = I1[0].length/2;
+
+
+       double[][] I3 = new double[m][n];
+
+
+        for(int i=1;i<m-1;i++)
+        {            
+            for(int j=1;j<n-1;j++)
+            {
+                 I3[i][j] = Math.sqrt(convolucion(I,i,j,I1)*convolucion(I,i,j,I1) + convolucion(I,i,j,I2)*convolucion(I,i,j,I2)); 
+            }
+
+        }
+
+        return I3;
+    }
+    
+    public static int tamañoLimon(double[][] I){
+        int tamaño=0;
+
+        int m = I.length;
+        int n = I[0].length;
+
+        int[] icont = new int[m];
+        int jcont;
+
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+               if(I[i][j]==0)
+                   icont[i]++;
+            }
+        }
+
+        tamaño=0;
+        for(int i=0;i<m;i++)
+            if(icont[i]>tamaño)
+                tamaño=icont[i];
+
+        return tamaño;
+    }
+
+    public static double[][] pintarFondo(double[][] I, double[][] I1,double umbral){
+        int m = I.length;
+        int n = I[0].length;
+
+         for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+               if(I1[i][j]>umbral){
+                   I[i][j] = 0;
+               }
+
+            }
+        }
+
+        return I;
+    }
+
+
+    public static double colorLimon(double[][] I, double[][] I1, int tamaño){
+
+
+        int m = I.length;
+        int n = I[0].length;
+
+        double amarillo=0;
+
+
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+               amarillo += (I[i][j] + I1[i][j])/2;
+            }
+        }
+        double pi = 3.141566;
+
+        amarillo = ((amarillo/((tamaño/2)*(tamaño/2)*pi)));
+
+        return amarillo;
+    }
+
     
 }

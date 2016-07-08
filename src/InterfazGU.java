@@ -46,6 +46,9 @@ public class InterfazGU extends javax.swing.JFrame {
         jMenuItem10 = new javax.swing.JMenuItem();
         jMenuItemManaza = new javax.swing.JMenuItem();
         jMenuItemLimon = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItemPrewit = new javax.swing.JMenuItem();
+        jMenuItemSobel = new javax.swing.JMenuItem();
 
         jMenuItem11.setText("jMenuItem11");
 
@@ -216,6 +219,26 @@ public class InterfazGU extends javax.swing.JFrame {
 
         jMenuItemLimon.setText("Limon");
         jMenu2.add(jMenuItemLimon);
+
+        jMenu5.setText("Bordes");
+
+        jMenuItemPrewit.setText("Prewit");
+        jMenuItemPrewit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemPrewitActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItemPrewit);
+
+        jMenuItemSobel.setText("SoBel");
+        jMenuItemSobel.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemSobelActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItemSobel);
+
+        jMenu2.add(jMenu5);
 
         jMenuBar1.add(jMenu2);
 
@@ -475,6 +498,36 @@ public class InterfazGU extends javax.swing.JFrame {
     private void jMenuItemManazaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManazaActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jMenuItemManazaActionPerformed
+
+    private void jMenuItemPrewitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrewitActionPerformed
+        
+        if (this.imagen != null) {
+            double[][]  filtro1 = {{-1,-1,-1},{0,0,0},{1,1,1}};
+            double[][]  filtro2 = {{-1,0,1},{-1,0,1},{-1,0,1}}; 
+            
+            Imagen img = new Imagen(path);
+            Imagen.ventana(Algoritmos.bordes(img.getMatrizImg(), filtro1, filtro2), "Prewit");
+
+            
+        } else {
+            System.out.println("Imagen no cargada");
+        }
+        
+        
+    }//GEN-LAST:event_jMenuItemPrewitActionPerformed
+
+    private void jMenuItemSobelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemSobelActionPerformed
+        if (this.imagen != null) {
+            double[][]  filtro1 = {{-1,-2,-1},{0,0,0},{1,2,1}};
+            double[][]  filtro2 = {{-1,0,1},{-2,0,2},{-1,0,1}};
+            
+            Imagen img = new Imagen(path);
+            Imagen.ventana(Algoritmos.bordes(img.getMatrizImg(), filtro1, filtro2), "Sobel");
+            
+        } else {
+            System.out.println("Imagen no cargada");
+        }
+    }//GEN-LAST:event_jMenuItemSobelActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -491,6 +544,7 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenu jMenuBinarizacionPRomedio;
     private javax.swing.JMenuItem jMenuItem1;
@@ -506,7 +560,9 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItem9;
     private javax.swing.JMenuItem jMenuItemLimon;
     private javax.swing.JMenuItem jMenuItemManaza;
+    private javax.swing.JMenuItem jMenuItemPrewit;
     private javax.swing.JMenuItem jMenuItemResta;
+    private javax.swing.JMenuItem jMenuItemSobel;
     private javax.swing.JMenuItem jMenuItemSuma;
     private javax.swing.JMenuItem jMenuItemZoom;
     private javax.swing.JMenuItem jMenuPromBinGlobal;
