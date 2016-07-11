@@ -1,6 +1,4 @@
 
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.*;
 import javax.swing.*;
 
@@ -47,6 +45,7 @@ public class InterfazGU extends javax.swing.JFrame {
         jMenuItemManaza = new javax.swing.JMenuItem();
         jMenuItemLimon = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        jMenuItemRoberts = new javax.swing.JMenuItem();
         jMenuItemPrewit = new javax.swing.JMenuItem();
         jMenuItemSobel = new javax.swing.JMenuItem();
 
@@ -218,9 +217,22 @@ public class InterfazGU extends javax.swing.JFrame {
         jMenu2.add(jMenuItemManaza);
 
         jMenuItemLimon.setText("Limon");
+        jMenuItemLimon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemLimonActionPerformed(evt);
+            }
+        });
         jMenu2.add(jMenuItemLimon);
 
         jMenu5.setText("Bordes");
+
+        jMenuItemRoberts.setText("Roberts");
+        jMenuItemRoberts.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemRobertsActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItemRoberts);
 
         jMenuItemPrewit.setText("Prewit");
         jMenuItemPrewit.addActionListener(new java.awt.event.ActionListener() {
@@ -528,6 +540,23 @@ public class InterfazGU extends javax.swing.JFrame {
             System.out.println("Imagen no cargada");
         }
     }//GEN-LAST:event_jMenuItemSobelActionPerformed
+
+    private void jMenuItemLimonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLimonActionPerformed
+        LimonesFrame lf = new LimonesFrame(this, true);
+        lf.setLocationRelativeTo(null);
+        lf.setVisible(rootPaneCheckingEnabled);
+        
+    }//GEN-LAST:event_jMenuItemLimonActionPerformed
+
+    private void jMenuItemRobertsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemRobertsActionPerformed
+        if (this.imagen != null) {
+            
+            Imagen img = new Imagen(path);
+            Imagen.ventana(Algoritmos.bordesRoberts(img), "Roberts");
+        } else {
+            System.out.println("Imagen no cargada");
+        }
+    }//GEN-LAST:event_jMenuItemRobertsActionPerformed
     /**
      * @param args the command line arguments
      */
@@ -562,6 +591,7 @@ public class InterfazGU extends javax.swing.JFrame {
     private javax.swing.JMenuItem jMenuItemManaza;
     private javax.swing.JMenuItem jMenuItemPrewit;
     private javax.swing.JMenuItem jMenuItemResta;
+    private javax.swing.JMenuItem jMenuItemRoberts;
     private javax.swing.JMenuItem jMenuItemSobel;
     private javax.swing.JMenuItem jMenuItemSuma;
     private javax.swing.JMenuItem jMenuItemZoom;

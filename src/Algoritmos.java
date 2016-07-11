@@ -1,4 +1,8 @@
 
+import java.util.ArrayList;
+import java.util.List;
+
+
 public class Algoritmos {
 
     public static double[][] operadorUmbral(Imagen img, int umbral) {
@@ -386,19 +390,38 @@ public class Algoritmos {
         return img;
     }
     
-    public static double convolucion(double[][] I,int x,int y, double[][] I1){
-     
-	int i=0,j=0;
-	int m = I1.length;
-	int n = I1[0].length;
-	double sum=0;
-	int i1=0, j1=0;
-     
-        for( i=-1;i<=1;i++)
-        {   j1=0;         
-            for(j=-1;j<=1;j++)
-            {
-                sum += I[x+i][y+j]*I1[i1][j1];
+    
+    public static double[][] bordesRoberts(Imagen img) {
+        double[][] I = img.getMatrizImg();
+        double[][] I2 = img.getMatrizImg();
+        
+        int filas = img.getFilas();
+        int col   = img.getColumnas();
+  
+        System.out.println("Roberts");
+        
+        for (int i = 1; i < filas -1; i++) {
+            for (int j = 1; j < col-1; j++) {
+                double newPixel = Math.abs(I[i][j] - I[i+1][j+1]) + Math.abs(I[i][j+1] - I[i+1][j]);
+                I2[i][j] = newPixel;
+            }
+        }
+
+        return I2;
+    }
+    
+    public static double convolucion(double[][] I, int x, int y, double[][] I1) {
+
+        int i = 0, j = 0;
+        int m = I1.length;
+        int n = I1[0].length;
+        double sum = 0;
+        int i1 = 0, j1 = 0;
+
+        for (i = -1; i <= 1; i++) {
+            j1 = 0;
+            for (j = -1; j <= 1; j++) {
+                sum += I[x + i][y + j] * I1[i1][j1];
                 j1++;
             }
             i1++;
@@ -406,24 +429,19 @@ public class Algoritmos {
         return sum;
     }
 
-     
     public static double[][] bordes(double[][] I, double[][] I1, double[][] I2) {
 
-       int m= I.length;
-       int n= I[0].length;
+        int m = I.length;
+        int n = I[0].length;
 
-       int m1 = I1.length/2;
-       int n1 = I1[0].length/2;
+        int m1 = I1.length / 2;
+        int n1 = I1[0].length / 2;
 
+        double[][] I3 = new double[m][n];
 
-       double[][] I3 = new double[m][n];
-
-
-        for(int i=1;i<m-1;i++)
-        {            
-            for(int j=1;j<n-1;j++)
-            {
-                 I3[i][j] = Math.sqrt(convolucion(I,i,j,I1)*convolucion(I,i,j,I1) + convolucion(I,i,j,I2)*convolucion(I,i,j,I2)); 
+        for (int i = 1; i < m - 1; i++) {
+            for (int j = 1; j < n - 1; j++) {
+                I3[i][j] = Math.sqrt(convolucion(I, i, j, I1) * convolucion(I, i, j, I1) + convolucion(I, i, j, I2) * convolucion(I, i, j, I2));
             }
 
         }
@@ -497,6 +515,157 @@ public class Algoritmos {
         amarillo = ((amarillo/((tamaño/2)*(tamaño/2)*pi)));
 
         return amarillo;
+    }
+    
+    static void tamannoLimon(Foto imagenA) {
+        Histograma histo = new Histograma(imagenA, 0, 0, imagenA.getFilas(), imagenA.getColumnas());
+        List<List<Integer>> I;
+
+        int filas;
+        int columnas;
+
+        int xf = 0, yc = 0;
+        int x = 0, xn = 0;
+        int y = 0, yn = 0;
+
+        I = imagenA.getMatrizImg();
+        filas = imagenA.getFilas();
+        columnas = imagenA.getColumnas();
+        for (int i = 0; i < filas; i++) {
+            List<Integer> fila = new ArrayList<Integer>();//fila vacia
+            for (int j = 0; j < columnas; j++) {
+                if (I.get(i).get(j) < histo.getUmbral_EG()) {
+                    xn++;
+                }
+            }
+            if (x < xn) {
+                x = xn;
+                xf = i;
+            }
+            xn = 0;
+        }
+        for (int j = 0; j < columnas; j++) {
+            List<Integer> fila = new ArrayList<Integer>();//fila vacia
+            for (int i = 0; i < filas; i++) {
+                if (I.get(i).get(j) < histo.getUmbral_EG()) {
+                    yn++;
+                }
+            }
+            if (y < yn) {
+                y = yn;
+                yc = j;
+            }
+            yn = 0;
+        }
+        for (int i = 0; i < filas; i++) {
+            List<Integer> fila = new ArrayList<Integer>();//fila vacia
+            for (int j = 0; j < columnas; j++) {
+                if (I.get(i).get(j) < histo.getUmbral_EG()) {
+                    if (i == xf || j == yc) {
+                        fila.add(200);
+                    } else {
+                        fila.add(0);
+                    }
+                } else {
+                    fila.add(255);
+                }
+            }
+            I.set(i, fila);
+
+        }
+        System.out.println("Ancho: " + columnas + "  Altura:" + filas);
+        LimonesFrame.txtAltura.setText((x * 15 / 400) + "cm");
+        LimonesFrame.txtAncho.setText((y * 15 / 400) + "cm");
+        ////valores para el limon en pixeles 
+        //si el profe no te da las imagenes usas las imagenes  que hay en un archivo pero cambias estos valores
+        ///cambiar 73 por 293 y 87 por 320
+        ///cambiar 47 por 260 y 57 por 293
+        // porq estos limones son grades y estos son para limones pequeños
+        if (x > 315 || y > 315) {
+            LimonesFrame.txtClase.setText(" A ");
+        } else if (x > 288 || y > 288) {
+            LimonesFrame.txtClase.setText(" B ");
+        } else {
+            LimonesFrame.txtClase.setText(" C ");
+        }
+        imagenA.setMatrizImg(I);
+
+    }
+
+    static void calidadLimon(Foto imagenA) {
+        //Primera Imagen
+        int paleta_R[] = new int[256];
+        int paleta_G[] = new int[256];
+        int paleta_B[] = new int[256];
+        List<List<Integer>> I_A_R = imagenA.getMatrizImg_R();
+        List<List<Integer>> I_A_G = imagenA.getMatrizImg_G();
+        List<List<Integer>> I_A_B = imagenA.getMatrizImg_B();
+
+        int filas_A = imagenA.getFilas();
+        int columnas_A = imagenA.getColumnas();
+
+        for (int i = 0; i < filas_A; i++) {
+            List<Integer> fila_R = I_A_R.get(i);
+            List<Integer> fila_G = I_A_G.get(i);
+            List<Integer> fila_B = I_A_B.get(i);
+            for (int j = 0; j < columnas_A; j++) {
+                if (fila_R.get(j) >= 0) {
+                    paleta_R[fila_R.get(j)] = paleta_R[fila_R.get(j)] + 1;
+                }
+
+                if (fila_G.get(j) >= 0) {
+                    paleta_G[fila_G.get(j)] = paleta_G[fila_G.get(j)] + 1;
+                }
+
+                if (fila_B.get(j) >= 0) {
+                    paleta_B[fila_B.get(j)] = paleta_B[fila_B.get(j)] + 1;
+                }
+
+            }
+        }
+        int may1 = 0, may2 = 0, may3 = 0;
+        for (int r = 0; r < 127; r++) {
+            may1 = may1 + paleta_R[r];
+        }
+        for (int r = 127; r < 191; r++) {
+            may2 = may2 + paleta_R[r];
+        }
+        for (int r = 191; r < 227; r++) {
+            may3 = may3 + paleta_R[r];
+        }
+        if (may1 > may2) {
+            LimonesFrame.txtColor.setText("C");
+        } else if (may2 > may3) {
+            LimonesFrame.txtColor.setText("B");
+        } else {
+            LimonesFrame.txtColor.setText("A");
+        }
+
+    }
+
+    static void manzana(Foto imagenA) {
+        //Primera Imagen 
+        List<List<Integer>> I_A_R = imagenA.getMatrizImg_R();
+        List<List<Integer>> I_A_G = imagenA.getMatrizImg_G();
+        List<List<Integer>> I_A_B = imagenA.getMatrizImg_B();
+
+        int filas_A = imagenA.getFilas();
+        int columnas_A = imagenA.getColumnas();
+
+        for (int i = 0; i < filas_A; i++) {
+            List<Integer> fila_R = I_A_R.get(i);
+            List<Integer> fila_G = I_A_G.get(i);
+            List<Integer> fila_B = I_A_B.get(i);
+            for (int j = 0; j < columnas_A; j++) {
+                if (fila_R.get(j) < 20 && fila_G.get(j) < 20 && fila_B.get(j) < 20) {
+                    //sombrea la parte afecta
+                    fila_R.set(j, 128);
+                    fila_G.set(j, 255);
+                    fila_B.set(j, 255);
+                }
+
+            }
+        }
     }
 
     
