@@ -508,7 +508,13 @@ public class InterfazGU extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItem10ActionPerformed
 
     private void jMenuItemManazaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemManazaActionPerformed
-        // TODO add your handling code here:
+        if (this.imagen != null) {
+            Imagen img = new Imagen(path);
+            double umbral = Integer.parseInt(JOptionPane.showInputDialog("Ingrese umbral"));
+            Imagen.ventana(Algoritmos.manzana2(img, umbral), "Manzana - Umbral " + umbral);
+        } else {
+            System.out.println("Imagen no cargada");
+        }
     }//GEN-LAST:event_jMenuItemManazaActionPerformed
 
     private void jMenuItemPrewitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemPrewitActionPerformed

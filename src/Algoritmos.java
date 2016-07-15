@@ -667,6 +667,125 @@ public class Algoritmos {
             }
         }
     }
+    
+    
+    public static double convolucionMul(double[][] W, double[][] I) {
+        double R = 0;
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                R += (W[i][j] * I[i][j]);
+            }
+        }
+        
+        return R;
+    }
+    
+    public static double[][] filtroGausiano(double[][] I, int fil, int col) {
+        double[][] mask = {
+            {1, 2, 1},
+            {2, 4, 2},
+            {1, 2, 1}
+        };
+        
+        double sumaPesos = 0;
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                sumaPesos += mask[i][j];
+            }
+        }
+        
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                mask[i][j] = mask[i][j] / sumaPesos;
+            }
+        }
+        
+        double[][] pixels = new double[3][3];
+        
+        for (int i = 1; i < fil - 1; i++) {
+            for (int j = 1; j < col - 1; j++) {
+                pixels[0][0] = I[i-1][j-1];
+                pixels[0][1] = I[i-1][j];
+                pixels[0][2] = I[i-1][j+1];
+                
+                pixels[1][0] = I[i][j-1];
+                pixels[1][1] = I[i][j];
+                pixels[1][2] = I[i][j+1];
+                
+                pixels[2][0] = I[i+1][j-1];
+                pixels[2][1] = I[i+1][j];
+                pixels[2][2] = I[i+1][j+1];
+                
+                I[i][j] = convolucionMul(mask, pixels);
+            }
+        }
+        
+        return I;
+    }
+    
+    private static double variacionVecindad(double central, double puntos[]) {
+        double suma = 0;
+        
+        for (int i = 0; i < puntos.length; i++) {
+            suma += Math.abs(puntos[i] - central);
+        }
+        
+        return suma / puntos.length;
+    }
+    
+    public static Imagen manzana2(Imagen img, double umbral) {
+        int filas = img.getFilas();
+        int col  = img.getColumnas();
+        
+        double[][] R = img.getMatrizImg_R();
+        double[][] G = img.getMatrizImg_G();
+        double[][] B = img.getMatrizImg_B();
+        double[][] I = img.getMatrizImg();
+        
+        double[] puntos = new double[8];
+        double UMBRAL = umbral;
+        
+        double[][] R2 = new double[filas][col];
+        double[][] G2 = new double[filas][col];
+        double[][] B2 = new double[filas][col];
+        
+       
+        for (int i = 1; i < filas-1; i++) {
+            for (int j = 1; j < col-1; j++) {
+                
+                puntos[0] = I[i-1][j-1];
+                puntos[1] = I[i-1][j];
+                puntos[2] = I[i-1][j+1];
+                puntos[3] = I[i][j+1];
+                puntos[4] = I[i+1][j+1];
+                puntos[5] = I[i+1][j];
+                puntos[6] = I[i+1][j-1];
+                puntos[7] = I[i][j-1];
+                
+                double variacion = variacionVecindad(I[i][j], puntos);
+                
+                if (variacion > UMBRAL) {
+                    R2[i][j] = 0;
+                    G2[i][j] = 255;
+                    B2[i][j] = 0;
+                } else {
+                    R2[i][j] = R[i][j];
+                    G2[i][j] = G[i][j];
+                    B2[i][j] = B[i][j];
+                }
+            }
+        }
+        
+        
+        //R2 = filtroGausiano(R2, filas, col);
+        //G2 = filtroGausiano(G2, filas, col);
+        //B2 = filtroGausiano(B2, filas, col);
+  
+        img.convertirMatrizAImagenRGB(R2, G2, B2);
+        return img;
+    }
 
     
 }
